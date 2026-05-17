@@ -6,6 +6,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import DashboardLayout from './components/layout/DashboardLayout';
 import PatientDashboard from './pages/PatientDashboard';
+import Appointments from './pages/Appointments';
+import MedicalRecords from './pages/MedicalRecords';
+import Settings from './pages/Settings';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -31,6 +34,9 @@ function App() {
             <Route path="/login" element={<><Navbar theme={theme} toggleTheme={toggleTheme} /><Login /></>} />
             <Route path="/register" element={<><Navbar theme={theme} toggleTheme={toggleTheme} /><Register /></>} />
             <Route path="/dashboard/patient" element={<DashboardLayout role="patient"><PatientDashboard /></DashboardLayout>} />
+            <Route path="/dashboard/appointments" element={<DashboardLayout role="patient"><Appointments /></DashboardLayout>} />
+            <Route path="/dashboard/records" element={<DashboardLayout role="patient"><MedicalRecords /></DashboardLayout>} />
+            <Route path="/dashboard/settings" element={<DashboardLayout role="patient"><Settings /></DashboardLayout>} />
           </Routes>
         </main>
         </div>

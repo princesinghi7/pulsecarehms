@@ -111,13 +111,13 @@ const DashboardLayout = ({ children, role = 'patient' }) => {
           
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium hidden sm:block">{user?.name || 'User'}</span>
-            <button className="p-2 text-muted-foreground hover:text-foreground relative">
+            <Link to="/dashboard/settings" className="p-2 text-muted-foreground hover:text-foreground relative">
               <Bell className="h-5 w-5" />
               <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-destructive ring-2 ring-card"></span>
-            </button>
-            <div className="h-8 w-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center cursor-pointer">
+            </Link>
+            <Link to="/dashboard/settings" className="h-8 w-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center cursor-pointer hover:bg-primary/30 transition-colors">
               <span className="text-sm font-bold text-primary">{user?.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
-            </div>
+            </Link>
           </div>
         </header>
 
