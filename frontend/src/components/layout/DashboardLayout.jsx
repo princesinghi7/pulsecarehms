@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Activity, Home, Calendar, FileText, Settings, 
   LogOut, Menu, Bell, Search, User as UserIcon, X
 } from 'lucide-react';
+import { AuthContext } from '../../context/AuthContext';
 
 const DashboardLayout = ({ children, role = 'patient' }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = React.useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   const navItems = {
     patient: [
@@ -70,7 +78,7 @@ const DashboardLayout = ({ children, role = 'patient' }) => {
           </nav>
           
           <div className="px-3 mt-auto pt-4 border-t">
-            <button className="flex items-center w-full px-3 py-2.5 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors">
+            <button onClick={handleLogout} className="flex items-center w-full px-3 py-2.5 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors">
               <LogOut className="mr-3 h-5 w-5" />
               Sign Out
             </button>
@@ -102,12 +110,13 @@ const DashboardLayout = ({ children, role = 'patient' }) => {
           </div>
           
           <div className="flex items-center gap-4">
+            <span className="text-sm font-medium hidden sm:block">{user?.name || 'User'}</span>
             <button className="p-2 text-muted-foreground hover:text-foreground relative">
               <Bell className="h-5 w-5" />
               <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-destructive ring-2 ring-card"></span>
             </button>
             <div className="h-8 w-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center cursor-pointer">
-              <UserIcon className="h-4 w-4 text-primary" />
+              <span className="text-sm font-bold text-primary">{user?.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
             </div>
           </div>
         </header>

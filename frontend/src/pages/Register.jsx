@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Activity, User, Mail, Lock, Phone } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
 
 const Register = () => {
   const [role, setRole] = useState('patient');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  
   const navigate = useNavigate();
+  const { register } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/dashboard/patient');
+    setError('');
+    
+    const res = await register({ name, email, phone, password, role });
+    if (res.success) {
+      navigate('/dashboard/patient');
+    } else {
+      setError(res.error || 'Registration failed');
+    }
   };
 
   return (
@@ -48,6 +63,8 @@ const Register = () => {
             </button>
           </div>
 
+          {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm text-center">{error}</div>}
+
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-foreground">
@@ -62,6 +79,8 @@ const Register = () => {
                   name="name"
                   type="text"
                   required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="block w-full pl-10 pr-3 py-2 border bg-background border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm"
                   placeholder="John Doe"
                 />
@@ -81,6 +100,8 @@ const Register = () => {
                   name="email"
                   type="email"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="block w-full pl-10 pr-3 py-2 border bg-background border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm"
                   placeholder="you@example.com"
                 />
@@ -100,6 +121,8 @@ const Register = () => {
                   name="phone"
                   type="tel"
                   required
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   className="block w-full pl-10 pr-3 py-2 border bg-background border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm"
                   placeholder="+1 (555) 000-0000"
                 />
@@ -119,6 +142,8 @@ const Register = () => {
                   name="password"
                   type="password"
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="block w-full pl-10 pr-3 py-2 border bg-background border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm"
                   placeholder="••••••••"
                 />

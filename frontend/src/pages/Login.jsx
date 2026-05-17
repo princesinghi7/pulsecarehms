@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Activity, Mail, Lock, ArrowRight } from 'lucide-react';
+import { Activity, Mail, Lock } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/dashboard/patient');
+    setError('');
+    const res = await login(email, password);
+    if (res.success) {
+      navigate('/dashboard/patient');
+    } else {
+      setError(res.error || 'Login failed');
+    }
   };
 
   return (
@@ -31,6 +42,7 @@ const Login = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="bg-card py-8 px-4 shadow-xl border sm:rounded-2xl sm:px-10">
+          {error && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded text-sm text-center">{error}</div>}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-foreground">
@@ -46,6 +58,8 @@ const Login = () => {
                   type="email"
                   autoComplete="email"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="block w-full pl-10 pr-3 py-2 border bg-background border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm"
                   placeholder="you@example.com"
                 />
@@ -66,6 +80,8 @@ const Login = () => {
                   type="password"
                   autoComplete="current-password"
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="block w-full pl-10 pr-3 py-2 border bg-background border-input rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all sm:text-sm"
                   placeholder="••••••••"
                 />

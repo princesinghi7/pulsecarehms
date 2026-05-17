@@ -1,6 +1,7 @@
-import React from 'react';
-import { Calendar, Clock, Activity, FileText, ChevronRight, AlertCircle } from 'lucide-react';
+import React, { useContext } from 'react';
+import { Calendar, Clock, Activity, FileText, ChevronRight, Zap } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { AuthContext } from '../context/AuthContext';
 
 const healthData = [
   { name: 'Jan', bp: 120, heartRate: 72 },
@@ -12,11 +13,14 @@ const healthData = [
 ];
 
 const PatientDashboard = () => {
+  const { user } = useContext(AuthContext);
+  const firstName = user?.name ? user.name.split(' ')[0] : 'User';
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Good Morning, John</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Good Morning, {firstName}</h1>
           <p className="text-muted-foreground">Here is your health summary for today.</p>
         </div>
         <button className="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 shadow-sm flex items-center gap-2">
