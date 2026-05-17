@@ -4,6 +4,8 @@ import Navbar from './components/layout/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import DashboardLayout from './components/layout/DashboardLayout';
+import PatientDashboard from './pages/PatientDashboard';
 
 function App() {
   const [theme, setTheme] = useState('light');
@@ -21,12 +23,12 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-background text-foreground flex flex-col font-sans transition-colors duration-300">
-        <Navbar theme={theme} toggleTheme={toggleTheme} />
         <main className="flex-grow">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<><Navbar theme={theme} toggleTheme={toggleTheme} /><Home /></>} />
+            <Route path="/login" element={<><Navbar theme={theme} toggleTheme={toggleTheme} /><Login /></>} />
+            <Route path="/register" element={<><Navbar theme={theme} toggleTheme={toggleTheme} /><Register /></>} />
+            <Route path="/dashboard/patient" element={<DashboardLayout role="patient"><PatientDashboard /></DashboardLayout>} />
           </Routes>
         </main>
       </div>

@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Activity, User, Mail, Lock, Phone } from 'lucide-react';
 
 const Register = () => {
   const [role, setRole] = useState('patient');
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate('/dashboard/patient');
+  };
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-muted/30">
@@ -42,7 +48,7 @@ const Register = () => {
             </button>
           </div>
 
-          <form className="space-y-5" action="#" method="POST">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-foreground">
                 Full Name

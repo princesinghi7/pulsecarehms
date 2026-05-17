@@ -1,8 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Activity, Mail, Lock, ArrowRight } from 'lucide-react';
 
 const Login = () => {
+  const navigate = useNavigate();
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate('/dashboard/patient');
+  };
+
   return (
     <div className="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-muted/30">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -24,7 +31,7 @@ const Login = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="bg-card py-8 px-4 shadow-xl border sm:rounded-2xl sm:px-10">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-foreground">
                 Email address
