@@ -20,7 +20,11 @@ const Register = () => {
     
     const res = await register({ name, email, phone, password, role });
     if (res.success) {
-      navigate('/dashboard/patient');
+      if (res.user.role === 'doctor') {
+        navigate('/dashboard/doctor');
+      } else {
+        navigate('/dashboard/patient');
+      }
     } else {
       setError(res.error || 'Registration failed');
     }

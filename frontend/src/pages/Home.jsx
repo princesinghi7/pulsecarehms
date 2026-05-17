@@ -174,9 +174,9 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: 'Dr. Sarah Johnson', spec: 'Cardiologist', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
-              { name: 'Dr. Michael Chen', spec: 'Neurologist', img: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
-              { name: 'Dr. Emily Davis', spec: 'Pediatrician', img: 'https://images.unsplash.com/photo-1594824432258-293e62f0fcd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }
+              { name: 'Dr. Sarah Johnson', spec: 'Cardiologist', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
+              { name: 'Dr. Michael Chen', spec: 'Neurologist', img: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
+              { name: 'Dr. Emily Davis', spec: 'Pediatrician', img: 'https://images.unsplash.com/photo-1527613426401-41d9a5b3a4a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' }
             ].map((doc, i) => (
               <div key={i} className="group rounded-2xl overflow-hidden border bg-card hover:shadow-lg transition-all">
                 <div className="h-64 overflow-hidden">

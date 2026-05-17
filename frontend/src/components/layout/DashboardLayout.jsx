@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 
-const DashboardLayout = ({ children, role = 'patient' }) => {
+const DashboardLayout = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -32,6 +32,7 @@ const DashboardLayout = ({ children, role = 'patient' }) => {
     ]
   };
 
+  const role = user?.role || 'patient';
   const links = navItems[role] || navItems.patient;
 
   return (
