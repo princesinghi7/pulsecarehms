@@ -14,10 +14,10 @@ const Navbar = ({ theme, toggleTheme }) => {
             </Link>
           </div>
           <div className="hidden md:flex md:gap-x-6">
-            <Link to="/features" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Features</Link>
-            <Link to="/departments" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Departments</Link>
-            <Link to="/doctors" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Doctors</Link>
-            <Link to="/contact" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Contact</Link>
+            <a href="/#features" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Features</a>
+            <a href="/#departments" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Departments</a>
+            <a href="/#doctors" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Doctors</a>
+            <a href="/#contact" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Contact</a>
           </div>
           <div className="flex items-center gap-4">
             <button 

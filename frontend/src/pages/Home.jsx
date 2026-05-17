@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Activity, Clock, Users, Shield, Zap, Search, Phone } from 'lucide-react';
+import { ArrowRight, Activity, Clock, Users, Shield, Zap, Search, Phone, HeartPulse, Brain, Bone, Baby, Mail, MapPin, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -30,8 +30,8 @@ const Home = () => {
                   Get Started
                   <ArrowRight className="h-4 w-4" />
                 </Link>
-                <Link to="/demo" className="flex items-center gap-2 bg-secondary text-secondary-foreground px-6 py-3 rounded-lg font-medium hover:bg-secondary/80 transition-all border border-border">
-                  View Demo
+                <Link to="/login" className="flex items-center gap-2 bg-secondary text-secondary-foreground px-6 py-3 rounded-lg font-medium hover:bg-secondary/80 transition-all border border-border">
+                  Log in
                 </Link>
               </div>
               <div className="flex items-center gap-8 mt-8">
@@ -72,14 +72,14 @@ const Home = () => {
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3 mt-4">
-                    <button className="flex flex-col items-center justify-center p-4 border rounded-xl hover:bg-muted hover:border-primary transition-all cursor-pointer">
+                    <Link to="/register" className="flex flex-col items-center justify-center p-4 border rounded-xl hover:bg-muted hover:border-red-500 transition-all cursor-pointer">
                       <Phone className="h-6 w-6 text-red-500 mb-2" />
                       <span className="text-sm font-medium">Emergency</span>
-                    </button>
-                    <button className="flex flex-col items-center justify-center p-4 border rounded-xl hover:bg-muted hover:border-primary transition-all cursor-pointer">
+                    </Link>
+                    <Link to="/register" className="flex flex-col items-center justify-center p-4 border rounded-xl hover:bg-muted hover:border-blue-500 transition-all cursor-pointer">
                       <Clock className="h-6 w-6 text-blue-500 mb-2" />
                       <span className="text-sm font-medium">Book Visit</span>
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -102,10 +102,11 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-background">
+      <section id="features" className="py-20 bg-background scroll-mt-16">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold mb-4">Comprehensive Hospital Management</h2>
+            <span className="text-primary font-semibold tracking-wider uppercase text-sm">Features</span>
+            <h2 className="text-3xl font-bold mt-2 mb-4">Comprehensive Hospital Management</h2>
             <p className="text-muted-foreground">A fully integrated suite of tools designed to optimize patient care and hospital operations.</p>
           </div>
           
@@ -129,6 +130,148 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Departments Section */}
+      <section id="departments" className="py-20 bg-muted/30 scroll-mt-16">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-primary font-semibold tracking-wider uppercase text-sm">Departments</span>
+            <h2 className="text-3xl font-bold mt-2 mb-4">Centers of Excellence</h2>
+            <p className="text-muted-foreground">Our hospital provides state-of-the-art facilities across various medical specialties.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: 'Cardiology', icon: HeartPulse, desc: 'Advanced heart care and surgery.' },
+              { title: 'Neurology', icon: Brain, desc: 'Comprehensive brain and spine treatments.' },
+              { title: 'Orthopedics', icon: Bone, desc: 'Bone, joint, and spine surgery experts.' },
+              { title: 'Pediatrics', icon: Baby, desc: 'Specialized healthcare for infants and children.' }
+            ].map((dept, i) => (
+              <div key={i} className="flex flex-col items-center text-center p-8 rounded-2xl bg-background border hover:border-primary transition-colors duration-300">
+                <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                  <dept.icon className="h-8 w-8" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{dept.title}</h3>
+                <p className="text-sm text-muted-foreground">{dept.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Doctors Section */}
+      <section id="doctors" className="py-20 bg-background scroll-mt-16">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <span className="text-primary font-semibold tracking-wider uppercase text-sm">Our Specialists</span>
+              <h2 className="text-3xl font-bold mt-2">Meet Our Expert Doctors</h2>
+            </div>
+            <Link to="/register" className="hidden sm:flex items-center gap-2 text-primary font-medium hover:underline">
+              View All Doctors <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { name: 'Dr. Sarah Johnson', spec: 'Cardiologist', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
+              { name: 'Dr. Michael Chen', spec: 'Neurologist', img: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
+              { name: 'Dr. Emily Davis', spec: 'Pediatrician', img: 'https://images.unsplash.com/photo-1594824432258-293e62f0fcd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' }
+            ].map((doc, i) => (
+              <div key={i} className="group rounded-2xl overflow-hidden border bg-card hover:shadow-lg transition-all">
+                <div className="h-64 overflow-hidden">
+                  <img src={doc.img} alt={doc.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold mb-1">{doc.name}</h3>
+                  <p className="text-primary font-medium text-sm mb-4">{doc.spec}</p>
+                  <Link to="/register" className="inline-flex flex-1 items-center justify-center w-full bg-secondary text-secondary-foreground px-4 py-2 rounded-md font-medium hover:bg-secondary/80 transition-colors">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    Book Appointment
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-muted/30 scroll-mt-16">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div>
+              <span className="text-primary font-semibold tracking-wider uppercase text-sm">Contact Us</span>
+              <h2 className="text-3xl font-bold mt-2 mb-6">Get In Touch With Us</h2>
+              <p className="text-muted-foreground mb-8">
+                Have questions or need assistance? Our support team is here to help you 24/7. Reach out via phone, email, or visit our hospital.
+              </p>
+              
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mt-1">
+                    <MapPin className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg">Our Location</h4>
+                    <p className="text-muted-foreground">123 Health Avenue, Medical District<br/>New York, NY 10001</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mt-1">
+                    <Phone className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg">Phone Number</h4>
+                    <p className="text-muted-foreground">+1 (800) 123-4567<br/>Emergency: 911</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mt-1">
+                    <Mail className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg">Email Address</h4>
+                    <p className="text-muted-foreground">support@pulsecare.com<br/>appointments@pulsecare.com</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-card border shadow-xl rounded-2xl p-8">
+              <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
+              <form className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">First Name</label>
+                    <input type="text" className="w-full p-3 rounded-md border bg-background focus:ring-2 focus:ring-primary focus:outline-none" placeholder="John" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Last Name</label>
+                    <input type="text" className="w-full p-3 rounded-md border bg-background focus:ring-2 focus:ring-primary focus:outline-none" placeholder="Doe" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Email</label>
+                  <input type="email" className="w-full p-3 rounded-md border bg-background focus:ring-2 focus:ring-primary focus:outline-none" placeholder="john@example.com" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Message</label>
+                  <textarea rows="4" className="w-full p-3 rounded-md border bg-background focus:ring-2 focus:ring-primary focus:outline-none" placeholder="How can we help you?"></textarea>
+                </div>
+                <button type="button" className="w-full bg-primary text-primary-foreground py-3 rounded-md font-medium hover:bg-primary/90 transition-colors">
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Footer minimal */}
+      <footer className="py-8 bg-background border-t text-center text-muted-foreground">
+        <p>&copy; 2026 PulseCare Hospital Management System. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
