@@ -7,6 +7,8 @@ import Register from './pages/Register';
 import DashboardLayout from './components/layout/DashboardLayout';
 import PatientDashboard from './pages/PatientDashboard';
 import DoctorDashboard from './pages/DoctorDashboard';
+import DoctorSchedule from './pages/DoctorSchedule';
+import DoctorPatients from './pages/DoctorPatients';
 import Appointments from './pages/Appointments';
 import MedicalRecords from './pages/MedicalRecords';
 import Settings from './pages/Settings';
@@ -36,6 +38,8 @@ function App() {
             <Route path="/register" element={<><Navbar theme={theme} toggleTheme={toggleTheme} /><Register /></>} />
             <Route path="/dashboard/patient" element={<DashboardLayout><PatientDashboard /></DashboardLayout>} />
             <Route path="/dashboard/doctor" element={<DashboardLayout><DoctorDashboard /></DashboardLayout>} />
+            <Route path="/dashboard/schedule" element={<DashboardLayout><DoctorSchedule /></DashboardLayout>} />
+            <Route path="/dashboard/patients" element={<DashboardLayout><DoctorPatients /></DashboardLayout>} />
             <Route path="/dashboard/appointments" element={<DashboardLayout><Appointments /></DashboardLayout>} />
             <Route path="/dashboard/records" element={<DashboardLayout><MedicalRecords /></DashboardLayout>} />
             <Route path="/dashboard/settings" element={<DashboardLayout><Settings /></DashboardLayout>} />
