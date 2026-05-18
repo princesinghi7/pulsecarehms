@@ -1,5 +1,5 @@
 # pulsecarehms
-Full-stack Hospital Management System with role-based authentication, appointment scheduling, patient records, billing, AI chatbot, symptom checker, and real-time dashboards using Angular, Express.js, and MongoDB.
+Full-stack Hospital Management System with role-based authentication, appointment scheduling, patient records, billing, AI chatbot, symptom checker, and real-time dashboards using React, Express.js, and MongoDB.
 # PulseCare 🏥
 
 PulseCare is an AI-powered Hospital Management System designed to simplify hospital workflows through automation, smart scheduling, digital health records, and real-time analytics.
@@ -19,7 +19,7 @@ PulseCare is an AI-powered Hospital Management System designed to simplify hospi
 
 ## 🛠 Tech Stack
 ### Frontend
-- Angular
+- React (Vite)
 - Tailwind CSS
 
 ### Backend
@@ -47,8 +47,8 @@ PulseCare/
 
 ### Clone repository
 ```bash
-git clone https://github.com/yourusername/pulsecare.git
-cd pulsecare
+git clone https://github.com/princesinghi7/pulsecarehms.git
+cd pulsecarehms
 ```
 
 ### Backend setup
@@ -62,7 +62,7 @@ npm start
 ```bash
 cd frontend
 npm install
-ng serve
+npm run dev
 ```
 
 ## 🔐 Environment Variables
