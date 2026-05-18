@@ -19,7 +19,7 @@ const Home = () => {
                 <span className="text-xs font-medium uppercase tracking-wider">Smart Hospital Management System</span>
               </div>
               <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-tight">
-                Next Generation <br/>
+                Next Generation <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">Healthcare</span> Platform
               </h1>
               <p className="text-lg text-muted-foreground max-w-xl">
@@ -49,7 +49,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            
+
             <div className="relative animate-in slide-in-from-right duration-700 delay-150">
               <div className="relative rounded-2xl bg-card border shadow-2xl p-6 backdrop-blur-sm bg-card/80">
                 <div className="flex justify-between items-center mb-6">
@@ -64,9 +64,9 @@ const Home = () => {
                     <label className="text-sm text-muted-foreground">Describe your symptoms</label>
                     <div className="relative">
                       <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <input 
-                        type="text" 
-                        placeholder="e.g. headache and fever for 3 days" 
+                      <input
+                        type="text"
+                        placeholder="e.g. headache and fever for 3 days"
                         className="w-full bg-background border rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow"
                       />
                     </div>
@@ -83,9 +83,9 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Floating elements */}
-              <div className="absolute -top-6 -right-6 bg-card border shadow-lg rounded-lg p-4 animate-bounce" style={{animationDuration: '3s'}}>
+              <div className="absolute -top-6 -right-6 bg-card border shadow-lg rounded-lg p-4 animate-bounce" style={{ animationDuration: '3s' }}>
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600">
                     <Shield className="h-5 w-5" />
@@ -109,7 +109,7 @@ const Home = () => {
             <h2 className="text-3xl font-bold mt-2 mb-4">Comprehensive Hospital Management</h2>
             <p className="text-muted-foreground">A fully integrated suite of tools designed to optimize patient care and hospital operations.</p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { title: 'Smart Appointments', icon: Clock, desc: 'AI-driven slot allocation, smart queues, and automated reminders.' },
@@ -139,7 +139,7 @@ const Home = () => {
             <h2 className="text-3xl font-bold mt-2 mb-4">Centers of Excellence</h2>
             <p className="text-muted-foreground">Our hospital provides state-of-the-art facilities across various medical specialties.</p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { title: 'Cardiology', icon: HeartPulse, desc: 'Advanced heart care and surgery.' },
@@ -171,7 +171,7 @@ const Home = () => {
               View All Doctors <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { name: 'Dr. Sarah Johnson', spec: 'Cardiologist', img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80' },
@@ -206,7 +206,7 @@ const Home = () => {
               <p className="text-muted-foreground mb-8">
                 Have questions or need assistance? Our support team is here to help you 24/7. Reach out via phone, email, or visit our hospital.
               </p>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary mt-1">
@@ -214,7 +214,7 @@ const Home = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-lg">Our Location</h4>
-                    <p className="text-muted-foreground">123 Health Avenue, Medical District<br/>New York, NY 10001</p>
+                    <p className="text-muted-foreground">123 Health Avenue, Medical District<br />New York, NY 10001</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -223,7 +223,7 @@ const Home = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-lg">Phone Number</h4>
-                    <p className="text-muted-foreground">+1 (800) 123-4567<br/>Emergency: 911</p>
+                    <p className="text-muted-foreground">+1 (800) 123-4567<br />Emergency: 911</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -232,12 +232,12 @@ const Home = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-lg">Email Address</h4>
-                    <p className="text-muted-foreground">support@pulsecare.com<br/>appointments@pulsecare.com</p>
+                    <p className="text-muted-foreground">support@pulsecare.com<br />appointments@pulsecare.com</p>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-card border shadow-xl rounded-2xl p-8">
               <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
               <form className="space-y-4">
@@ -267,7 +267,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Footer minimal */}
       <footer className="py-8 bg-background border-t text-center text-muted-foreground">
         <p>&copy; 2026 PulseCare Hospital Management System. All rights reserved.</p>
