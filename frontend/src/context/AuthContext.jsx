@@ -14,7 +14,12 @@ export const AuthProvider = ({ children }) => {
     // Check if user is logged in on mount
     const storedUser = localStorage.getItem('user');
     if (storedUser && token) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error("Failed to parse user from local storage", e);
+        localStorage.removeItem('user');
+      }
     }
     setLoading(false);
   }, [token]);
