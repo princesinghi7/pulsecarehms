@@ -1,15 +1,83 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Activity, Mail, Lock } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
+
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isSocialLoading, setIsSocialLoading] = useState(false);
+  const [activeProvider, setActiveProvider] = useState(null);
+  const popupCheckRef = useRef(null);
+  const googleScriptLoaded = useRef(false);
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
-  
+  const { login, socialLogin, completeSocialAuth, user, token } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (token || user) {
+      navigate(user?.role === 'doctor' ? '/dashboard/doctor' : '/dashboard/patient');
+      return;
+    }
+
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!googleClientId || googleScriptLoaded.current) {
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      googleScriptLoaded.current = true;
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
+  }, [navigate, token, user]);
+
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data?.type !== 'social-auth') {
+        return;
+      }
+
+      const payload = event.data.payload;
+      if (popupCheckRef.current) {
+        window.clearInterval(popupCheckRef.current);
+        popupCheckRef.current = null;
+      }
+      setIsSocialLoading(false);
+      setActiveProvider(null);
+
+      const result = completeSocialAuth(payload);
+      if (result.success) {
+        if (result.user.role === 'doctor') {
+          navigate('/dashboard/doctor');
+        } else {
+          navigate('/dashboard/patient');
+        }
+      } else {
+        setError(result.error || 'Social login failed');
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+      if (popupCheckRef.current) {
+        window.clearInterval(popupCheckRef.current);
+      }
+    };
+  }, [completeSocialAuth, navigate, token, user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -23,6 +91,106 @@ const Login = () => {
     } else {
       setError(res.error || 'Login failed');
     }
+  };
+
+  const handleGoogleLogin = async () => {
+    setError('');
+    setActiveProvider('google');
+    setIsSocialLoading(true);
+
+    const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!googleClientId) {
+      setIsSocialLoading(false);
+      setActiveProvider(null);
+      setError('Google sign-in is not configured yet. Add your Google client ID to the frontend environment.');
+      return;
+    }
+
+    if (!window.google?.accounts?.id) {
+      setIsSocialLoading(false);
+      setActiveProvider(null);
+      setError('Google sign-in script is still loading. Please try again in a moment.');
+      return;
+    }
+
+    try {
+      window.google.accounts.id.initialize({
+        client_id: googleClientId,
+        callback: async (response) => {
+          const res = await fetch(`${API_URL}/api/v1/auth/social/google/credential`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ credential: response.credential })
+          });
+
+          const data = await res.json();
+          const result = completeSocialAuth(data);
+
+          if (result.success) {
+            if (result.user.role === 'doctor') {
+              navigate('/dashboard/doctor');
+            } else {
+              navigate('/dashboard/patient');
+            }
+          } else {
+            setError(result.error || 'Google sign-in failed');
+            setIsSocialLoading(false);
+            setActiveProvider(null);
+          }
+        }
+      });
+
+      window.google.accounts.id.prompt();
+    } catch (err) {
+      setIsSocialLoading(false);
+      setActiveProvider(null);
+      setError('Google sign-in could not be started.');
+    }
+  };
+
+  const handleSocialLogin = async (provider) => {
+    if (provider === 'google') {
+      await handleGoogleLogin();
+      return;
+    }
+
+    setError('');
+    setActiveProvider(provider);
+    setIsSocialLoading(true);
+
+    const res = await socialLogin(provider);
+    if (!res.success) {
+      setIsSocialLoading(false);
+      setActiveProvider(null);
+      setError(res.error || 'Unable to start social sign-in');
+      return;
+    }
+
+    const popup = window.open(
+      res.authUrl,
+      `${provider}-oauth`,
+      'width=500,height=700,top=120,left=120,scrollbars=yes'
+    );
+
+    if (!popup) {
+      setIsSocialLoading(false);
+      setActiveProvider(null);
+      setError('Please allow popups to continue with your account.');
+      return;
+    }
+
+    if (popupCheckRef.current) {
+      window.clearInterval(popupCheckRef.current);
+    }
+
+    popupCheckRef.current = window.setInterval(() => {
+      if (popup.closed) {
+        window.clearInterval(popupCheckRef.current);
+        popupCheckRef.current = null;
+        setIsSocialLoading(false);
+        setActiveProvider(null);
+      }
+    }, 500);
   };
 
   return (
@@ -135,33 +303,32 @@ const Login = () => {
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <div>
-                <a
-                  href="#"
-                  className="w-full flex justify-center py-2 px-4 border border-border rounded-md shadow-sm bg-background text-sm font-medium text-foreground hover:bg-muted transition-colors"
-                >
-                  <span className="sr-only">Sign in with Google</span>
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path
-                      d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-                    />
-                  </svg>
-                </a>
-              </div>
-              <div>
-                <a
-                  href="#"
-                  className="w-full flex justify-center py-2 px-4 border border-border rounded-md shadow-sm bg-background text-sm font-medium text-foreground hover:bg-muted transition-colors"
-                >
-                  <span className="sr-only">Sign in with Microsoft</span>
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path
-                      d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z"
-                    />
-                  </svg>
-                </a>
-              </div>
+              <button
+                type="button"
+                onClick={() => handleSocialLogin('google')}
+                className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-md shadow-sm bg-background text-sm font-medium text-foreground hover:bg-muted transition-colors"
+                disabled={isSocialLoading && activeProvider === 'google'}
+              >
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+                </svg>
+                <span>{isSocialLoading && activeProvider === 'google' ? 'Opening…' : 'Google'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSocialLogin('microsoft')}
+                className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-md shadow-sm bg-background text-sm font-medium text-foreground hover:bg-muted transition-colors"
+                disabled={isSocialLoading && activeProvider === 'microsoft'}
+              >
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.4 24H0V12.6h11.4V24zM24 24H12.6V12.6H24V24zM11.4 11.4H0V0h11.4v11.4zm12.6 0H12.6V0H24v11.4z" />
+                </svg>
+                <span>{isSocialLoading && activeProvider === 'microsoft' ? 'Opening…' : 'Microsoft'}</span>
+              </button>
             </div>
+            <p className="mt-3 text-center text-xs text-muted-foreground">
+              Google sign-in uses your Google account directly once the Google client ID is configured in the frontend environment.
+            </p>
           </div>
         </div>
       </div>

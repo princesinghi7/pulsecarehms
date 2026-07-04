@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Calendar, Clock, Activity, FileText, ChevronRight, Zap } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { AuthContext } from '../context/AuthContext';
@@ -15,6 +15,10 @@ const healthData = [
 const PatientDashboard = () => {
   const { user } = useContext(AuthContext);
   const firstName = user?.name ? user.name.split(' ')[0] : 'User';
+  const [insightVisible, setInsightVisible] = useState(true);
+  const insightMessage = user?.name
+    ? `${firstName}, your recent health trends look steady. We recommend keeping your hydration and walk routine consistent this week.`
+    : 'Your recent health trends look steady. We recommend keeping your hydration and walk routine consistent this week.';
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
@@ -157,23 +161,25 @@ const PatientDashboard = () => {
       </div>
       
       {/* AI Insights Section */}
-      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border border-blue-100 dark:border-blue-900/50 rounded-xl p-6 shadow-sm">
-        <div className="flex items-start gap-4">
-          <div className="p-3 bg-blue-500 rounded-full text-white shadow-md">
-            <Zap className="h-6 w-6" />
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-1">AI Health Insight</h3>
-            <p className="text-blue-800/80 dark:text-blue-200/80">
-              Your blood pressure has stabilized over the last 3 months. Based on your recent lab results, we recommend continuing your current diet and adding 20 minutes of daily cardio. Would you like to schedule a follow-up with your Cardiologist to discuss these results?
-            </p>
-            <div className="mt-3 flex gap-3">
-              <button className="bg-blue-600 text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-blue-700 transition-colors">Schedule Follow-up</button>
-              <button className="bg-transparent border border-blue-300 text-blue-700 dark:text-blue-300 px-4 py-1.5 rounded text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors">Dismiss</button>
+      {insightVisible && (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border border-blue-100 dark:border-blue-900/50 rounded-xl p-6 shadow-sm">
+          <div className="flex items-start gap-4">
+            <div className="p-3 bg-blue-500 rounded-full text-white shadow-md">
+              <Zap className="h-6 w-6" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-1">AI Health Insight</h3>
+              <p className="text-blue-800/80 dark:text-blue-200/80">
+                {insightMessage}
+              </p>
+              <div className="mt-3 flex gap-3">
+                <button className="bg-blue-600 text-white px-4 py-1.5 rounded text-sm font-medium hover:bg-blue-700 transition-colors">Schedule Follow-up</button>
+                <button onClick={() => setInsightVisible(false)} className="bg-transparent border border-blue-300 text-blue-700 dark:text-blue-300 px-4 py-1.5 rounded text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors">Dismiss</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

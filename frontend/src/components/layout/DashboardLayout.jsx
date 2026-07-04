@@ -78,7 +78,7 @@ const DashboardLayout = ({ children }) => {
             })}
           </nav>
           
-          <div className="px-3 mt-auto pt-4 border-t">
+          <div className="px-3 mt-auto pt-4 border-t sticky bottom-0 bg-card">
             <button onClick={handleLogout} className="flex items-center w-full px-3 py-2.5 rounded-lg text-sm font-medium text-destructive hover:bg-destructive/10 transition-colors">
               <LogOut className="mr-3 h-5 w-5" />
               Sign Out
@@ -112,12 +112,16 @@ const DashboardLayout = ({ children }) => {
           
           <div className="flex items-center gap-4">
             <span className="text-sm font-medium hidden sm:block">{user?.name || 'User'}</span>
-            <Link to="/dashboard/settings" className="p-2 text-muted-foreground hover:text-foreground relative">
+            <Link to="/dashboard/settings?tab=notifications" className="p-2 text-muted-foreground hover:text-foreground relative">
               <Bell className="h-5 w-5" />
               <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-destructive ring-2 ring-card"></span>
             </Link>
-            <Link to="/dashboard/settings" className="h-8 w-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center cursor-pointer hover:bg-primary/30 transition-colors">
-              <span className="text-sm font-bold text-primary">{user?.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
+            <Link to="/dashboard/settings" className="h-8 w-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center cursor-pointer hover:bg-primary/30 transition-colors overflow-hidden">
+              {user?.avatar ? (
+                <img src={user.avatar} alt={user.name || 'User'} className="h-full w-full object-cover" />
+              ) : (
+                <span className="text-sm font-bold text-primary">{user?.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
+              )}
             </Link>
           </div>
         </header>
